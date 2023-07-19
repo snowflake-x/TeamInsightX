@@ -29,9 +29,16 @@ KDA display
 ### Installation method
 
 Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/releases), then place it in the plugin directory of Pengu Loader, making sure the file path is 
-
-```plugins/TeamInsightX/index.js```
-
-```plugins/TeamInsightX/js/...```
-
-```plugins/TeamInsightX/css/...```
+```
+📂 Pengu Loader
+└── 📂 plugins
+    ├── 📂 @default
+    └── 📂 TeamInsightX
+        ├── 📄 index.js
+        ├── 📂 js
+        │   ├─ 📄 DataQuery.js
+        │   ├─ 📄 LoadDataInfo.js
+        │   └─ 📄 tooltip.js
+        └── 📂 css
+            └── 🎨 resource.css
+```
