@@ -1,0 +1,107 @@
+.head-main {
+    position: relative;
+    background-color: rgb(0, 0, 0);
+    display: flex;
+}
+
+.icon-head {
+    height: 32px;
+    width: 32px;
+    background-size: cover;
+}
+
+.user-history-result {
+    width: 60px;
+    text-align: center;
+    position: relative;
+    padding-top: 6px;
+}
+
+.user-history-result-text {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-align: center;
+}
+
+.user-history-result-text.victory {
+    color: #0acbe6
+}
+
+.user-history-result-text.defeat {
+    color: #ff2345
+}
+
+.user-history-result-mode {
+    color: #a09b8c;
+    display: block;
+    font-size: 0.7em
+}
+
+
+.user-history-items {
+    display: flex;
+
+}
+
+.user-history-items div {
+    height: 32px;
+    width: 32px;
+    background: rgba(1, 10, 19, .5);
+    border: thin solid #463714;
+    margin: 0 -1px -4px 0;
+    background-size: cover;
+}
+
+/* 战绩详情区块 */
+.match-data {
+    position: relative;
+    top: 2.5px;
+    color: #a09b8c;
+    font-weight: 700;
+    letter-spacing: .05em;
+    direction: ltr;
+    font-size: 13px;
+    display: block
+}
+
+/* 补刀 */
+.user-minions {
+    display: inline-block;
+    position: relative;
+    min-width: 45px;
+}
+
+
+/* 玩家补刀标志 */
+.user-minions:after {
+    background-size: 100%;
+    content: "";
+    display: inline-block;
+    height: 12px;
+    margin-left: 0px;
+    opacity: .6;
+    position: relative;
+    top: 3px;
+    transition: opacity .3s ease;
+    width: 11px
+}
+
+/* 金币 */
+.user-gold {
+    display: inline-block;
+    position: relative;
+}
+
+/* 玩家金钱 */
+.user-gold:after {
+    background-size: 100%;
+    content: "";
+    display: inline-block;
+    height: 10px;
+    margin-left: 2px;
+    opacity: .6;
+    transition: opacity .3s ease;
+    width: 11px
+}
