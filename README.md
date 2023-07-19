@@ -16,7 +16,7 @@ Borrowed the idea from [balance-buff-viewer](https://github.com/nomi-san/balance
 ### 📝 TODO
 - [ ] Multi-language support
 - [ ] Add settings options
-
+- [ ] Add 
 ### Existing features
 Homepage privacy status check
 
@@ -28,7 +28,7 @@ KDA display
 
 ### Installation method
 
-Download and extract xxx, then place it in the plugin directory of Pengu Loader, making sure the file path is 
+Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/releases), then place it in the plugin directory of Pengu Loader, making sure the file path is 
 
 ```plugins/TeamInsightX/index.js```
 
