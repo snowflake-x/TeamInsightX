@@ -5,7 +5,7 @@ This is a [Pengu Loader](https://pengu.lol) Plugin
 
 Thank for [nomi](https://github.com/nomi-san) continuous help and support
 
-Please do not use it together with [balance-buff-viewer](https://github.com/nomi-san/balance-buff-viewer), because I use almost the same display method as it.
+Please do not use it together with [balance-buff-viewer](https://github.com/nomi-san/balance-buff-viewer), because I use almost the same display method as it
 
 <img src="https://raw.githubusercontent.com/LightningSw/TeamInsightX/main/show.png"/>
 
@@ -13,10 +13,10 @@ Please do not use it together with [balance-buff-viewer](https://github.com/nomi
 
 Borrowed the idea from [balance-buff-viewer](https://github.com/nomi-san/balance-buff-viewer)
 
-### 📝 TODO
+### TODO
 - [ ] Multi-language support
 - [ ] Add settings options
-- [ ] Add 
+- [ ] Add lane information display
 ### Existing features
 Homepage privacy status check
 
