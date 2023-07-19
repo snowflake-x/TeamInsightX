@@ -152,6 +152,7 @@ async function mount() {
       const kda = await add(puuid[index], 0, 4, tooltip);
       tooltip.setKdaColor(el, kda);
       tooltip.repositionElement(el, "right");
+      tooltip.hide();
       el.addEventListener("mouseout", () => tooltip.hide());
       el.addEventListener("mouseover", () => {
         tooltip.show();
