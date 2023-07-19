@@ -29,6 +29,10 @@ KDA display
 ### Installation method
 
 Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/releases), then place it in the plugin directory of Pengu Loader, making sure the file path is 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e773e11df8e93ce0a91f536bbe96c8dde1cf62a5
 ```
 📂 Pengu Loader
 └── 📂 plugins
@@ -41,4 +45,8 @@ Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/rele
         │   └─ 📄 tooltip.js
         └── 📂 css
             └── 🎨 resource.css
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> e773e11df8e93ce0a91f536bbe96c8dde1cf62a5
