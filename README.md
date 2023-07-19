@@ -1,11 +1,11 @@
 # TeamInsightX
 Search for teammate information
 
-
-
 This is a [Pengu Loader](https://pengu.lol) Plugin
 
 Thank for [nomi](https://github.com/nomi-san) continuous help and support
+
+<img src="https://raw.githubusercontent.com/LightningSw/TeamInsightX/main/show.png"/>
 
 # Implement
 
