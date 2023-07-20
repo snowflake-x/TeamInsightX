@@ -81,7 +81,8 @@
         },
         {
             "_locales": [
-              "vi-VN"
+              "vi-VN",
+              "vn-VN"
             ],
             "ranks": {
               "CHALLENGER": "VÔ ĐỊCH",
@@ -120,7 +121,7 @@
           {
             "_locales": [
                 "pt-BR",
-                "pt_PT"
+                "pt-PT"
             ],
             "ranks": {
                 "CHALLENGER": "DESAFIANTE",
