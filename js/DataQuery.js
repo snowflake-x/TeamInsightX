@@ -9,27 +9,10 @@ export class DataQuery {
         const status = result.privacy;
         const level = result.summonerLevel;
         const puuid = result.puuid;
-        return [name, status == 'PUBLIC' ? '开放' : '隐藏', level, puuid];
+        return [name, status, level, puuid];
     }
 
     async queryRank(puuid) {
-        const Ranks = {
-            CHALLENGER: '最强王者',
-            GRANDMASTER: '傲世宗师',
-            MASTER: '超凡大师',
-            DIAMOND: '璀璨钻石',
-            PLATINUM: '华贵铂金',
-            GOLD: '荣耀黄金',
-            SILVER: '不屈白银',
-            BRONZE: '英勇黄铜',
-            IRON: '坚韧黑铁',
-            '': '无段位'
-        };
-        const QueueTypes = {
-            RANKED_SOLO_5x5: '单/双排位',
-            RANKED_FLEX_SR: '灵活组排',
-            RANKED_TFT: '云顶之弈排位赛'
-        };
         const result = await fetch('/lol-ranked/v1/ranked-stats/' + puuid.toString()).then((res) =>
             res.json()
         );
@@ -39,10 +22,10 @@ export class DataQuery {
         const Rank = [];
         const Type = [];
         const divisionS = [];
-        for (let index = 0; index < Object.keys(QueueTypes).length; index++) {
+        for (let index = 0; index < 3; index++) {
             LP.push(queue[index].leaguePoints);
-            Rank.push(Ranks[queue[index].tier]);
-            Type.push([QueueTypes[queue[index].queueType]]);
+            Rank.push(queue[index].tier);
+            Type.push(queue[index].queueType);
             divisionS.push(queue[index].division);
         }
         return [LP, Rank, Type, divisionS];

@@ -64,11 +64,11 @@ export class Tooltip {
     body.appendChild(matchList);
   }
 
-  mount(parent, position, caption, content) {
+  mount(parent, position, caption, content,match_t) {
     this.#caption.textContent = caption;
     this.#content.textContent = content;
     this.#tooltip.setAttribute("data-tooltip-position", position);
-    this.#match.innerText = "历史战绩";
+    this.#match.innerText = match_t;
     this.#manager.appendChild(this.#root);
     this.repositionElement(parent, position);
   }
@@ -151,7 +151,8 @@ export class Tooltip {
     assist,
     items_path,
     minions,
-    gold
+    gold,
+    win_t
   ) {
     const matchList = this.#matchList;
     const newHtml = `<div class="head-main">
@@ -176,7 +177,7 @@ export class Tooltip {
         <div class="user-history-result">
             <div class="user-history-result-text ${
               win ? "victory" : "defeat"
-            }">${win ? "胜利" : "失败"}</div>
+            }">${win_t}</div>
             <div class="user-history-result-mode">${mode}</div>
         </div>
         <div >

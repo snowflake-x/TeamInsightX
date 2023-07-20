@@ -1,6 +1,7 @@
 import { Tooltip } from "./js/tooltip";
 import { LoadDataInfo } from "./js/LoadDataInfo";
 import { DataQuery } from "./js/DataQuery";
+import { Translator } from "./js/Translator.js";
 import "./css/resource.css";
 const delay = (t) => new Promise((r) => setTimeout(r, t));
 let playerManager = document.getElementById("lol-uikit-layer-manager-wrapper");
@@ -8,10 +9,11 @@ let playerManager = document.getElementById("lol-uikit-layer-manager-wrapper");
 let tooltip_ = null;
 const LoadDataInfo_ = new LoadDataInfo();
 const DataQuery_ = new DataQuery();
+let Translator_ = null;
 
 const tooltips = [];
 
-const version = "beta1";
+const version = "0.0.2";
 
 async function updateInfo() {
   const fetchResult = await fetch("/lol-champ-select/v1/session");
@@ -83,6 +85,7 @@ async function add(puuid, begIndex, endIndex, tool) {
     const minions = matchData.Minions[i];
     const glod = matchData.gold[i];
     const mode = matchData.gameMode[i];
+    const win_t = Translator_.getWinText(wins);
     items_id.forEach((data) => {
       items_path.push(LoadDataInfo_.getItemIconPath(data));
     });
@@ -106,7 +109,8 @@ async function add(puuid, begIndex, endIndex, tool) {
       assist,
       items_path,
       minions,
-      glod
+      glod,
+      win_t
     );
     (k = k + kills), (d = d + deaths), (a = a + assist);
   }
@@ -121,33 +125,40 @@ async function mount() {
     await delay(100);
     party = document.querySelector(".summoner-array.your-party");
   } while (!party);
+  
   const summoners = party.querySelectorAll(".summoner-container-wrapper");
   for (const [index, el] of summoners.entries()) {
     if (puuid[index]) {
+      const [level_t,privacy_t,privacy_status] = Translator_.getTitleText(status[index]);
+      const [rank1_t,type1_t] = Translator_.getText(Rank[index][0],Mode[index][0]);
+      const [rank2_t,type2_t] = Translator_.getText(Rank[index][1],Mode[index][1]);
+      const match_t = Translator_.getMatchTitleText();
       const tooltip = new Tooltip(playerManager);
       tooltips.push(tooltip);
 
       tooltip.mount(
         el,
         "right",
-        name[index] + "\tlevel:" + level[index] + "\t生涯:" + status[index],
-        Mode[index][0] +
+        name[index],
+        level_t +":" + level[index] + "\t"+ privacy_t +":" + privacy_status+"\n" +
+        type1_t +
           ":" +
-          Rank[index][0] +
+          rank1_t + "|"+
           divisionS[index][0] +
           "\t" +
           "LP:" +
           LP[index][0] +
           "\n" +
-          Mode[index][1] +
+          type2_t +
           ":" +
-          Rank[index][1] +
+          rank2_t +"|"+
           divisionS[index][1] +
           "\t" +
           "LP:" +
           LP[index][1] +
           "\nversion:" +
-          version
+          version,
+          match_t
       );
       const kda = await add(puuid[index], 0, 4, tooltip);
       tooltip.setKdaColor(el, kda);
@@ -176,11 +187,12 @@ async function load() {
     await delay(100);
     playerManager = document.getElementById("lol-uikit-layer-manager-wrapper");
   } while (!playerManager);
+  const userLanguage = document.body.dataset['locale'];
+  Translator_ = new Translator(userLanguage);
   let paly = document.querySelector(".play-button-content");
   setPlay(paly);
-
   LoadDataInfo_.initUi();
-  console.log("TeamInsightX加载成功");
+  console.log("TeamInsightX加载成功\t\t"+version);
   console.log("LCU地址\t->\t" + window.location.href);
   console.log("更新数据\t->\t" + (await LoadDataInfo_.update()));
   const link = document.querySelector('link[rel="riot:plugins:websocket"]');

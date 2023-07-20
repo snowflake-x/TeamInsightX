@@ -1,0 +1,161 @@
+{
+    "translations": [
+        {
+            "_locales": [
+                "en-US",
+                "en-GB",
+                "en-AU"
+            ],
+            "ranks": {
+                "CHALLENGER": "CHALLENGER",
+                "GRANDMASTER": "GRANDMASTER",
+                "MASTER": "MASTER",
+                "DIAMOND": "DIAMOND",
+                "PLATINUM": "PLATINUM",
+                "GOLD": "GOLD",
+                "SILVER": "SILVER",
+                "BRONZE": "BRONZE",
+                "IRON": "IRON",
+                "NONE": "NONE",
+                "":"Unranked"
+            },
+            "queueTypes": {
+                "RANKED_SOLO_5x5": "Solo/Duo Queue",
+                "RANKED_FLEX_SR": "Flex Queue",
+                "RANKED_TFT": "TFT"
+            },
+            "display": [
+                "level",
+                {
+                    "privacy": {
+                        "PUBLIC":"public",
+                        "PRIVATE":"private",
+                        "text":"Privacy"
+                    },
+                    "winLoss":{
+                        "true":"victory",
+                        "false":"defeat"
+                    }
+                },
+                "Game Record"
+            ]
+        },
+        {
+            "_locales": [
+                "zh-CN",
+                "zh-TW"
+            ],
+            "ranks": {
+                "CHALLENGER": "最强王者",
+                "GRANDMASTER": "傲世宗师",
+                "MASTER": "超凡大师",
+                "DIAMOND": "璀璨钻石",
+                "PLATINUM": "华贵铂金",
+                "GOLD": "荣耀黄金",
+                "SILVER": "不屈白银",
+                "BRONZE": "英勇黄铜",
+                "IRON": "坚韧黑铁",
+                "NONE": "无段位",
+                "":"无段位"
+            },
+            "queueTypes": {
+                "RANKED_SOLO_5x5": "单/双排位",
+                "RANKED_FLEX_SR": "灵活组排",
+                "RANKED_TFT": "云顶之弈"
+            },
+            "display": [
+                "等级",
+                {
+                    "privacy": {
+                        "PUBLIC": "开放",
+                        "PRIVATE": "关闭",
+                        "text":"生涯"
+                    },
+                    "winLoss":{
+                        "true":"胜利",
+                        "false":"失败"
+                    }
+                },
+                "历史战绩"
+            ]
+        },
+        {
+            "_locales": [
+              "vi-VN"
+            ],
+            "ranks": {
+              "CHALLENGER": "VÔ ĐỊCH",
+              "GRANDMASTER": "ĐẠI SƯ PHẨM",
+              "MASTER": "TỐNG SƯ",
+              "DIAMOND": "KIM CƯƠNG",
+              "PLATINUM": "BẠC TẨM",
+              "GOLD": "VÀNG",
+              "SILVER": "BẠC",
+              "BRONZE": "ĐỒNG",
+              "IRON": "SẮT",
+              "NONE": "KHÔNG CÓ XẾP HẠNG",
+              "":"KHÔNG CÓ XẾP HẠNG"
+            },
+            "queueTypes": {
+              "RANKED_SOLO_5x5": "Đấu trường đơn/Solo",
+              "RANKED_FLEX_SR": "Đấu trường đơn đội/Flex",
+              "RANKED_TFT": "Đấu trường chủ nghĩa tướng/TFT"
+            },
+            "display": [
+              "mức độ",
+              {
+                "privacy": {
+                  "PUBLIC":"Công khai",
+                  "PRIVATE":"Riêng tư",
+                  "text":"Quyền riêng tư"
+                },
+                "winLoss":{
+                  "true":"Thắng",
+                  "false":"Thua"
+                }
+              },
+              "Kết quả trận đấu"
+            ]
+          },
+          {
+            "_locales": [
+                "pt-BR",
+                "pt_PT"
+            ],
+            "ranks": {
+                "CHALLENGER": "DESAFIANTE",
+                "GRANDMASTER": "GRÃO-MESTRE",
+                "MASTER": "MESTRE",
+                "DIAMOND": "DIAMANTE",
+                "EMERALD": "ESMERALDA",
+                "PLATINUM": "PLATINA",
+                "GOLD": "OURO",
+                "SILVER": "PRATA",
+                "BRONZE": "BRONZE",
+                "IRON": "FERRO",
+                "NONE": "NONE",
+                "":"Não Ranqueado"
+            },
+            "queueTypes": {
+                "RANKED_SOLO_5x5": "Fila Solo/Duo",
+                "RANKED_FLEX_SR": "Fila Flexível",
+                "RANKED_TFT": "TFT"
+            },
+            "display": [
+                "level",
+                {
+                    "privacy": {
+                        "PUBLIC":"publico",
+                        "PRIVATE":"privado",
+                        "text":"Privacidade"
+                    },
+                    "winLoss":{
+                        "true":"vitória",
+                        "false":"derrota"
+                    }
+                },
+                "Jogos Recentes"
+            ]
+        }
+    ]
+}
