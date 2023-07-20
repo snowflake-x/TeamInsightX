@@ -143,10 +143,10 @@
                 "RANKED_TFT": "TFT"
             },
             "display": [
-                "level",
+                "nível",
                 {
                     "privacy": {
-                        "PUBLIC":"publico",
+                        "PUBLIC":"público",
                         "PRIVATE":"privado",
                         "text":"Privacidade"
                     },
