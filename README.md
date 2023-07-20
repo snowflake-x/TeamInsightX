@@ -50,4 +50,3 @@ Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/rele
         └── 📂 css
             └── 🎨 resource.css
 ```
-```
