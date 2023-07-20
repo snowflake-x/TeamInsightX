@@ -81,8 +81,7 @@
         },
         {
             "_locales": [
-              "vi-VN",
-              "vn-VN"
+              "vi-VN"
             ],
             "ranks": {
               "CHALLENGER": "VÔ ĐỊCH",
@@ -121,7 +120,7 @@
           {
             "_locales": [
                 "pt-BR",
-                "pt-PT"
+                "pt_PT"
             ],
             "ranks": {
                 "CHALLENGER": "DESAFIANTE",
@@ -143,10 +142,10 @@
                 "RANKED_TFT": "TFT"
             },
             "display": [
-                "level",
+                "nível",
                 {
                     "privacy": {
-                        "PUBLIC":"publico",
+                        "PUBLIC":"público",
                         "PRIVATE":"privado",
                         "text":"Privacidade"
                     },
