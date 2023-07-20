@@ -1,3 +1,11 @@
+<!--
+ * @Author: LightningSw devdreamer1337@outlook.com
+ * @Date: 2023-07-16 23:00:39
+ * @LastEditors: LightningSw devdreamer1337@outlook.com
+ * @LastEditTime: 2023-07-21 00:34:25
+ * @FilePath: \TeamInsightX\README.md
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 # TeamInsightX
 Search for teammate information
 
@@ -29,10 +37,6 @@ KDA display
 ### Installation method
 
 Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/releases), then place it in the plugin directory of Pengu Loader, making sure the file path is 
-<<<<<<< HEAD
-=======
-
->>>>>>> e773e11df8e93ce0a91f536bbe96c8dde1cf62a5
 ```
 📂 Pengu Loader
 └── 📂 plugins
