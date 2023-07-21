@@ -35,7 +35,6 @@ export class DataQuery {
     async queryGameMode(id) {
         const result = await fetch('/lol-game-queues/v1/queues/' + id.toString()).then((res) => res.json());
         return result.name;
-
     }
 
 
