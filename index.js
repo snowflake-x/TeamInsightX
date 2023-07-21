@@ -211,9 +211,11 @@ async function load() {
     const [, endpoint, { data }] = JSON.parse(e.data);
     if (data === "ChampSelect") {
       mount();
-    } else if (data === "None") {
+    } else if (data === "None" || data === "Matchmaking" || data === "GameStart") {
       unmount();
     }
+    console.log(endpoint);
+    console.log(data);
   };
 }
 
