@@ -2,7 +2,7 @@
  * @Author: LightningSw devdreamer1337@outlook.com
  * @Date: 2023-07-16 23:00:39
  * @LastEditors: LightningSw devdreamer1337@outlook.com
- * @LastEditTime: 2023-07-21 00:34:25
+ * @LastEditTime: 2023-07-22 20:58:52
  * @FilePath: \TeamInsightX\README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -22,7 +22,7 @@ Please do not use it together with [balance-buff-viewer](https://github.com/nomi
 Borrowed the idea from [balance-buff-viewer](https://github.com/nomi-san/balance-buff-viewer)
 
 ### TODO
-- [ ] Multi-language support
+- [x] Multi-language support
 - [ ] Add settings options
 - [ ] Add lane information display
 ### Existing features

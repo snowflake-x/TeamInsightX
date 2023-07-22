@@ -160,6 +160,45 @@
                 },
                 "Jogos Recentes"
             ]
+        },
+        {
+            "_locales":[
+                "ru-RU"
+            ],
+            "ranks": {
+                "CHALLENGER": "ПРЕТЕНДЕНТ",
+                "GRANDMASTER": "ГРАНДМАСТЕР",
+                "MASTER": "МАСТЕР",
+                "DIAMOND": "АЛМАЗ",
+                "EMERALD": "ИЗУМРУД",
+                "PLATINUM": "ПЛАТИНА",
+                "GOLD": "ЗОЛОТО",
+                "SILVER": "СЕРЕБРО",
+                "BRONZE": "БРОНЗА",
+                "IRON": "ЖЕЛЕЗО",
+                "NONE": "NONE",
+                "":"НЕТ РАНГА"
+            },
+            "queueTypes": {
+                "RANKED_SOLO_5x5": "Одиночная/парная",
+                "RANKED_FLEX_SR": "Гибкая",
+                "RANKED_TFT": "TFT"
+            },
+            "display": [
+                "Уровень",
+                {
+                    "privacy": {
+                        "PUBLIC":"Открытый",
+                        "PRIVATE":"Закрытый",
+                        "text":"Конфиденциальность"
+                    },
+                    "winLoss":{
+                        "true":"Победа",
+                        "false":"Поражение"
+                    }
+                },
+                "Последние игры"
+            ]
         }
     ]
 }
