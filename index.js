@@ -13,7 +13,7 @@ let Translator_ = null;
 
 const tooltips = [];
 
-const version = "0.1.4-fix";
+const version = "0.1.5";
 
 async function updateInfo() {
   const fetchResult = await fetch("/lol-champ-select/v1/session");
