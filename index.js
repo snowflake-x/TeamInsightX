@@ -61,11 +61,23 @@ async function updateInfo() {
 }
 
 function unmount() {
+  console.log("卸载模块");
   tooltips.forEach((tool) => {
     tool.umount();
   });
   tooltips.length = 0;
 }
+
+
+
+/**
+ * 
+ * @param {string} puuid 
+ * @param {number} begIndex 
+ * @param {number} endIndex 
+ * @param {object} tool 
+ * @returns 
+ */
 
 async function add(puuid, begIndex, endIndex, tool) {
   const matchData = await DataQuery_.queryMatch(puuid, begIndex, endIndex);
@@ -80,13 +92,12 @@ async function add(puuid, begIndex, endIndex, tool) {
     const kills = matchData.killList[i];
     const deaths = matchData.deathsList[i];
     const assist = matchData.assistsList[i];
-    const items_id =  matchData.items[i];
+    const items_id = matchData.items[i];
     const items_path = [];
     const minions = matchData.Minions[i];
     const glod = matchData.gold[i];
     const mode = matchData.gameMode[i];
     const win_t = Translator_.getWinText(wins);
-    console.log(items_id);
     items_id.forEach((data) => {
       items_path.push(LoadDataInfo_.getItemIconPath(data));
     });
@@ -118,55 +129,72 @@ async function add(puuid, begIndex, endIndex, tool) {
   return (k + a) / d;
 }
 
+
+
+//GameMode
+let gameMode_ = '';
+
+/**
+ * copying balance-buff-viewer
+ * @returns 
+ */
+function isValidGameMode() {
+  return gameMode_ === 'aram' || gameMode_ === 'urf';
+}
+
+
 async function mount() {
   const [summonerId, puuid, name, level, status, Rank, LP, Mode, divisionS] =
     await updateInfo();
+  const session = await fetch('/lol-gameflow/v1/session').then(r => r.json());
+  gameMode_ = session.map.gameMode.toLowerCase(); //setGameMode
+
   let party;
   do {
     await delay(100);
     party = document.querySelector(".summoner-array.your-party");
   } while (!party);
-  
+
   const summoners = party.querySelectorAll(".summoner-container-wrapper");
   for (const [index, el] of summoners.entries()) {
     if (puuid[index]) {
-      const [level_t,privacy_t,privacy_status] = Translator_.getTitleText(status[index]);
-      const [rank1_t,type1_t] = Translator_.getText(Rank[index][0],Mode[index][0]);
-      const [rank2_t,type2_t] = Translator_.getText(Rank[index][1],Mode[index][1]);
+      const [level_t, privacy_t, privacy_status] = Translator_.getTitleText(status[index]);
+      const [rank1_t, type1_t] = Translator_.getText(Rank[index][0], Mode[index][0]);
+      const [rank2_t, type2_t] = Translator_.getText(Rank[index][1], Mode[index][1]);
       const match_t = Translator_.getMatchTitleText();
       const tooltip = new Tooltip(playerManager);
-      tooltips.push(tooltip);
-
+      tooltips.push(tooltip); //addtooltips
       tooltip.mount(
         el,
         "right",
         name[index],
-        level_t +":" + level[index] + "\t"+ privacy_t +":" + privacy_status+"\n" +
+        level_t + ":" + level[index] + "\t" + privacy_t + ":" + privacy_status + "\n" +
         type1_t +
-          ":" +
-          rank1_t + "|"+
-          divisionS[index][0] +
-          "\t" +
-          "LP:" +
-          LP[index][0] +
-          "\n" +
-          type2_t +
-          ":" +
-          rank2_t +"|"+
-          divisionS[index][1] +
-          "\t" +
-          "LP:" +
-          LP[index][1] +
-          "\nversion:" +
-          version,
-          match_t
+        ":" +
+        rank1_t + "|" +
+        divisionS[index][0] +
+        "\t" +
+        "LP:" +
+        LP[index][0] +
+        "\n" +
+        type2_t +
+        ":" +
+        rank2_t + "|" +
+        divisionS[index][1] +
+        "\t" +
+        "LP:" +
+        LP[index][1] +
+        "\nversion:" +
+        version,
+        match_t
       );
       const kda = await add(puuid[index], 0, 4, tooltip);
-    //  tooltip.setKdaColor(el, kda);
+      //  tooltip.setKdaColor(el, kda);
       tooltip.repositionElement(el, "right");
       tooltip.hide();
+
       el.addEventListener("mouseout", () => tooltip.hide());
-      el.addEventListener("mouseover", () => {
+      el.addEventListener(isValidGameMode()?"contextmenu":"mouseover", () => {
         tooltip.show();
       });
     }
@@ -193,7 +221,7 @@ async function load() {
   let paly = document.querySelector(".play-button-content");
   setPlay(paly);
   LoadDataInfo_.initUi();
-  console.log("TeamInsightX加载成功\t\t"+version);
+  console.log("TeamInsightX加载成功\t\t" + version);
   console.log("LCU地址\t->\t" + window.location.href);
   console.log("更新数据\t->\t" + (await LoadDataInfo_.update()));
   const link = document.querySelector('link[rel="riot:plugins:websocket"]');
@@ -212,7 +240,7 @@ async function load() {
     const [, endpoint, { data }] = JSON.parse(e.data);
     if (data === "ChampSelect") {
       mount();
-    } else if (data === "None" || data === "Matchmaking" || data === "GameStart" || data =="EndOfGame") {
+    } else if (data === "None" || data === "Matchmaking" || data === "GameStart" || data == "EndOfGame") {
       unmount();
     }
     console.log(endpoint);
