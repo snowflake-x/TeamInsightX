@@ -13,7 +13,7 @@ let Translator_ = null;
 
 const tooltips = [];
 
-const version = "0.0.2";
+const version = "0.1.4-fix";
 
 async function updateInfo() {
   const fetchResult = await fetch("/lol-champ-select/v1/session");
@@ -80,12 +80,13 @@ async function add(puuid, begIndex, endIndex, tool) {
     const kills = matchData.killList[i];
     const deaths = matchData.deathsList[i];
     const assist = matchData.assistsList[i];
-    const items_id = matchData.items[i];
+    const items_id =  matchData.items[i];
     const items_path = [];
     const minions = matchData.Minions[i];
     const glod = matchData.gold[i];
     const mode = matchData.gameMode[i];
     const win_t = Translator_.getWinText(wins);
+    console.log(items_id);
     items_id.forEach((data) => {
       items_path.push(LoadDataInfo_.getItemIconPath(data));
     });
@@ -211,7 +212,7 @@ async function load() {
     const [, endpoint, { data }] = JSON.parse(e.data);
     if (data === "ChampSelect") {
       mount();
-    } else if (data === "None" || data === "Matchmaking" || data === "GameStart") {
+    } else if (data === "None" || data === "Matchmaking" || data === "GameStart" || data =="EndOfGame") {
       unmount();
     }
     console.log(endpoint);
