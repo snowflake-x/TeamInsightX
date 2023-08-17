@@ -27,7 +27,7 @@ async function updateInfo(server) {
   const session = await fetch("/lol-champ-select/v1/session").then((response) => response.json());
   let team = session.myTeam;
   console.log(gameMode_);
-  if (server!='zh-CN'&&gameMode_==="practicetool") {
+  if (server!='zh-CN') {
     do {
       info = await DataQuery_.sendRequest("get","//riotclient/chat/v5/participants/champ-select");
       await delay(500);
