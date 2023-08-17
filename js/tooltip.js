@@ -7,6 +7,7 @@ export class Tooltip {
   #content;
   #match;
   #matchList;
+  #kdaList;
 
   constructor(manager) {
     this.#manager = manager;
@@ -14,7 +15,7 @@ export class Tooltip {
     const root = (this.#root = document.createElement("div"));
     root.setAttribute(
       "style",
-      "position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; z-index: 19001;"
+      "position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; z-index: 19002;"
     );
 
     const container = (this.#container = document.createElement("div"));
@@ -75,6 +76,7 @@ export class Tooltip {
 
   umount() {
     this.#root.remove();
+  //  this.#kdaList.remove();
   }
   repositionElement(parent, position) {
     let left, top, itop;
@@ -139,7 +141,9 @@ export class Tooltip {
     sum.innerHTML += `<span class ="kda" style="display: block;">KDA: ${kda.toFixed(
       2
     )}</span>`;
+    this.#kdaList = sum.querySelector(".kda");
   }
+
   appendMatchRecord(
     heroIcon_path,
     spell1Id_path,
@@ -206,4 +210,5 @@ export class Tooltip {
 
     matchList.appendChild(fragment);
   }
+  
 }

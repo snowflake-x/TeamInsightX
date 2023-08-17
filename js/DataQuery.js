@@ -1,6 +1,15 @@
 export class DataQuery {
     constructor() { }
 
+/**
+ * 
+ * @param {string} name 
+ * @returns summonerId
+ */
+    async queryPlayerSummonerId(name) {
+        const result = await fetch('/lol-summoner/v1/summoners?name='+name).then((res) => res.json());
+        return result.summonerId;
+    }
     async queryPlayerInfo(summonerId) {
         const result = await fetch('/lol-summoner/v1/summoners/' + summonerId.toString()).then(
             (res) => res.json()
@@ -11,6 +20,29 @@ export class DataQuery {
         const puuid = result.puuid;
         return [name, status, level, puuid];
     }
+
+    /**
+     * 
+     * @param {string} method  方法
+     * @param {string} endpoint   地址
+     * @param {*} action 请求体
+     * @returns 
+     */
+    async sendRequest(method, endpoint, action) {
+        const initialize = {
+          method: method,
+          headers: {
+            "accept": "application/json",
+            "content-type": "application/json",
+          },
+          ...(action ? { data: action } : undefined)
+        };
+      
+        const request = await fetch(endpoint, initialize);
+        const response = await request.json();
+      
+        return response;
+      }
 
     async queryRank(puuid) {
         const result = await fetch('/lol-ranked/v1/ranked-stats/' + puuid.toString()).then((res) =>
@@ -31,7 +63,13 @@ export class DataQuery {
         return [LP, Rank, Type, divisionS];
     }
 
+    
 
+    /**
+     * 
+     * @param {number} id 
+     * @returns string 模式
+     */
     async queryGameMode(id) {
         const result = await fetch('/lol-game-queues/v1/queues/' + id.toString()).then((res) => res.json());
         return result.name;
@@ -68,7 +106,7 @@ export class DataQuery {
         const spell2Id = [];
         const items = [];
         const MList = Object.values(matchList);
-        MList[5].forEach((item) => {
+        for (let item of MList[5]) {
             gameMode.push(item.queueId);
             championIds.push(item.participants[0].championId);
             killList.push(item.participants[0].stats.kills);
@@ -83,12 +121,13 @@ export class DataQuery {
             spell2Id.push(item.participants[0].spell2Id);
             const tmp_items = [];
             for (let i = 0; i < 7; i++) {
+                //数据中的装备是以 1 2 3 4 5
                 const itemKey = 'item' + i;
                 const itemValue = item.participants[0].stats[itemKey];
                 tmp_items.push(itemValue);
             }
             items.push(tmp_items);
-        });
+        };
 
         return {
             gameMode: gameMode,

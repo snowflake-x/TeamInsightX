@@ -7,9 +7,11 @@ export class Translator{
     constructor(locale){
         this.data = translate.translations;
         this.LangIndex = this.data.findIndex(item => item._locales.includes(locale))||0;
+        this.LangIndex==-1?this.LangIndex=0:null;
     }
 
     getTitleText(status){
+        console.log(this.data);
         const levelText = this.data[this.LangIndex].display[0];
         const privacy_t = this.data[this.LangIndex].display[1].privacy["text"];
         const privacyText = this.data[this.LangIndex].display[1].privacy[status];
