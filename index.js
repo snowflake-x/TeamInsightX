@@ -13,7 +13,7 @@ let Translator_ = null;
 let userLanguage = null;
 const tooltips = [];
 
-const version = "0.1.8-fix";
+const version = "0.1.9";
 
 /**
  * 
@@ -27,13 +27,12 @@ async function updateInfo(server) {
   const session = await fetch("/lol-champ-select/v1/session").then((response) => response.json());
   let team = session.myTeam;
   console.log(gameMode_);
-  if (server!='zh-CN') {
+  if (server!='zh-CN'&&gameMode_==="practicetool") {
     do {
       info = await DataQuery_.sendRequest("get","//riotclient/chat/v5/participants/champ-select");
       await delay(500);
     } while (info.participants.length===0||!info);
   team = [];
-  console.log(team);
   for (const [index, participant] of info.participants.entries()) {
     let summonerId = await DataQuery_.queryPlayerSummonerId(participant.name);
     team.push({
