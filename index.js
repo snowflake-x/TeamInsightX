@@ -13,7 +13,6 @@ let Translator_ = null;
 let userLanguage = null;
 const tooltips = [];
 
-//这是什么
 const version = "0.1.8-fix";
 
 /**
@@ -283,3 +282,4 @@ async function load() {
 }
 
 window.addEventListener("load", load);
+957123
