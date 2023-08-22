@@ -203,8 +203,11 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
   let kda = await add(puuid, 0, 4, tooltip);
   while(!kda){
     await delay(200);
+    await delay(200);
     kda = await add(puuid, 0, 4, tooltip);
   }
+
+
 
 
   const action = {
@@ -221,6 +224,7 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
 
 async function mount() {
   const [summonerId, puuid, name, level, status, Rank, LP, Mode, divisionS] = await updateInfo(userLanguage);
+  
   
   let summoners;
   do {
