@@ -12,6 +12,7 @@ const DataQuery_ = new DataQuery();
 let Translator_ = null;
 let userLanguage = null;
 const tooltips = [];
+let teamChatInfo = null;
 
 const version = "0.1.9";
 
@@ -26,12 +27,17 @@ async function updateInfo(server) {
 
   const session = await fetch("/lol-champ-select/v1/session").then((response) => response.json());
   let team = session.myTeam;
-  console.log(gameMode_);
-  if (server!='zh-CN') {
+  teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");
+  do {
+    teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");
+  } while (teamChatInfo.length<1);
+
+  if (team.length > 1 && (team[0].nameVisibilityType == "HIDDEM" || team[1].summonerId == "HIDDEN")) {
+    console.log("Ranked Game");
     do {
       info = await DataQuery_.sendRequest("get","//riotclient/chat/v5/participants/champ-select");
       await delay(500);
-    } while (info.participants.length===0||!info);
+    } while (info.participants.length<5||!info);
   team = [];
   for (const [index, participant] of info.participants.entries()) {
     let summonerId = await DataQuery_.queryPlayerSummonerId(participant.name);
@@ -66,15 +72,21 @@ async function updateInfo(server) {
     playerRanks_Mode.push(Type);
     divisionS.push(division);
   }
+  const action = {
+    "body": "[TeamInsightX] Loaded!",
+    "type": "celebration"
+  };
+  const msg = await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo[0].id +"/messages",action);
   return [summonerIds, puuids, names, levels, status, playerRanks, leaguePoints, playerRanks_Mode, divisionS];
 }
 
 function unmount() {
-  console.log("卸载模块");
+  console.log("unmount");
   tooltips.forEach((tool) => {
     tool.umount();
   });
   tooltips.length = 0;
+  teamChatInfo = null;
 }
 
 function isPromise(obj) { 
@@ -190,9 +202,16 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
     version,
     match_t
   );
-  while(!add(puuid, 0, 4, tooltip)){
+  let kda = await add(puuid, 0, 4, tooltip);
+  while(!kda){
+    kda = await add(puuid, 0, 4, tooltip);
     await delay(100);
   }
+  const action = {
+    "body": "[KDA] "+ name + "\t->\t"+kda.toFixed(2),
+    "type": "celebration"
+  };
+  await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo[0].id +"/messages",action);
   tooltip.repositionElement(el, "right");
   tooltip.hide();
   return tooltip;
@@ -202,7 +221,6 @@ async function mount() {
   const [summonerId, puuid, name, level, status, Rank, LP, Mode, divisionS] = await updateInfo(userLanguage);
   const session = await fetch("/lol-gameflow/v1/session").then((r) => r.json());
   gameMode_ = session.map.gameMode.toLowerCase(); //setGameMode
-  console.log(await DataQuery_.queryPlayerSummonerId("Volibear 0"));
   let summoners;
   do {
     await delay(100);
@@ -259,7 +277,7 @@ async function load() {
   LoadDataInfo_.initUi();
   console.log(userLanguage);
   console.log("TeamInsightX\t\t" + version);
-  console.log("更新数据\t->\t" + (await LoadDataInfo_.update()));
+  console.log("Update Data\t->\t" + (await LoadDataInfo_.update()));
   const link = document.querySelector('link[rel="riot:plugins:websocket"]');
   const ws = new WebSocket(link.href, "wamp");
 
@@ -281,4 +299,3 @@ async function load() {
 }
 
 window.addEventListener("load", load);
-957123

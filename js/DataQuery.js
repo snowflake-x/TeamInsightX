@@ -25,19 +25,20 @@ export class DataQuery {
      * 
      * @param {string} method  方法
      * @param {string} endpoint   地址
-     * @param {*} action 请求体
+     * @param {*} action body
      * @returns 
      */
-    async sendRequest(method, endpoint, action) {
+    async sendRequest(method, endpoint, action = null) {
         const initialize = {
           method: method,
           headers: {
             "accept": "application/json",
             "content-type": "application/json",
-          },
-          ...(action ? { data: action } : undefined)
+          }
         };
-      
+        if (action) {
+            initialize.body = JSON.stringify(action);
+        }
         const request = await fetch(endpoint, initialize);
         const response = await request.json();
       
