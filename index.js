@@ -3,18 +3,28 @@ import { LoadDataInfo } from "./js/LoadDataInfo";
 import { DataQuery } from "./js/DataQuery";
 import { Translator } from "./js/Translator.js";
 import "./css/resource.css";
-const delay = (t) => new Promise((r) => setTimeout(r, t));
+const delay = (t) => new Promise((r) => setTimeout(r, t)); //delay function
+const isPromise = obj => obj instanceof Promise || (obj && typeof obj.then === 'function'); //isPromise function
+const isValidGameMode = () => gameMode_ === "aram" || gameMode_ === "urf"; //isValidGameMode function
 let playerManager = document.getElementById("lol-uikit-layer-manager-wrapper");
 
-let tooltip_ = null;
 const LoadDataInfo_ = new LoadDataInfo();
 const DataQuery_ = new DataQuery();
-let Translator_ = null;
-let userLanguage = null;
-const tooltips = [];
-let teamChatInfo = null;
+let Translator_ = null; //Translator Object
+let userLanguage = null; //suerLangaue
+const tooltips = []; //tooltips objects
+let teamChatInfo = null; //teamChatInfo
 
-const version = "0.1.9";
+let gameMode_ = ""; //gameMode
+
+const version = "0.1.9-u5";
+
+const getKDAGrade = (kda) => 
+  kda >= 5.0 ? 'S' :
+  kda >= 3.0 ? 'A' :
+  kda >= 2.0 ? 'B' :
+  kda >= 1.0 ? 'C' :
+  'D';
 
 /**
  * 
@@ -23,16 +33,17 @@ const version = "0.1.9";
  */
 async function updateInfo(server) {
   let info = null;
-
-
-  const session = await fetch("/lol-champ-select/v1/session").then((response) => response.json());
+  const session = await fetch("/lol-champ-select/v1/session").then((r) => r.json()); //getChampSelectSession
+  const mode = await fetch("/lol-gameflow/v1/session").then((r) => r.json()); //getGameflow
+  gameMode_ = mode.map.gameMode.toLowerCase(); //setGameMode
   let team = session.myTeam;
-  teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");
   do {
-    teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");
+    teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");//wating for teamChatInfo
   } while (teamChatInfo.length<1);
-
-  if (team.length > 1 && (team[0].nameVisibilityType == "HIDDEM" || team[1].summonerId == "HIDDEN")) {
+  
+  teamChatInfo = teamChatInfo.find(item => item.type === "championSelect"); //queryTeamChatInfo
+  console.log(teamChatInfo);
+  if (server!="zh-CN"&&mode.map.id == 11) {
     console.log("Ranked Game");
     do {
       info = await DataQuery_.sendRequest("get","//riotclient/chat/v5/participants/champ-select");
@@ -76,7 +87,7 @@ async function updateInfo(server) {
     "body": "[TeamInsightX] Loaded!",
     "type": "celebration"
   };
-  const msg = await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo[0].id +"/messages",action);
+  const msg = await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo.id +"/messages",action);
   return [summonerIds, puuids, names, levels, status, playerRanks, leaguePoints, playerRanks_Mode, divisionS];
 }
 
@@ -89,9 +100,7 @@ function unmount() {
   teamChatInfo = null;
 }
 
-function isPromise(obj) { 
-return obj instanceof Promise || (obj && typeof obj.then === 'function');
-}
+
 
 /**
  *
@@ -134,17 +143,6 @@ async function add(puuid, begIndex, endIndex, tool) {
     (k = k + kills), (d = d + deaths), (a = a + assist);
   }
   return (k + a) / d;
-}
-
-//GameMode
-let gameMode_ = "";
-
-/**
- * copying balance-buff-viewer
- * @returns
- */
-function isValidGameMode() {
-  return gameMode_ === "aram" || gameMode_ === "urf";
 }
 
 /**
@@ -204,14 +202,18 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
   );
   let kda = await add(puuid, 0, 4, tooltip);
   while(!kda){
+    await delay(200);
     kda = await add(puuid, 0, 4, tooltip);
-    await delay(100);
   }
+
+
   const action = {
-    "body": "[KDA] "+ name + "\t->\t"+kda.toFixed(2),
+    "body": "[KDA - "+getKDAGrade(kda)+"] "+ name + "\t->\t"+kda.toFixed(2),
     "type": "celebration"
   };
-  await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo[0].id +"/messages",action);
+  await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo.id +"/messages",action);
+
+
   tooltip.repositionElement(el, "right");
   tooltip.hide();
   return tooltip;
@@ -219,8 +221,7 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
 
 async function mount() {
   const [summonerId, puuid, name, level, status, Rank, LP, Mode, divisionS] = await updateInfo(userLanguage);
-  const session = await fetch("/lol-gameflow/v1/session").then((r) => r.json());
-  gameMode_ = session.map.gameMode.toLowerCase(); //setGameMode
+  
   let summoners;
   do {
     await delay(100);
@@ -275,8 +276,8 @@ async function load() {
   let paly = document.querySelector(".play-button-content");
   setPlay(paly);
   LoadDataInfo_.initUi();
-  console.log(userLanguage);
-  console.log("TeamInsightX\t\t" + version);
+
+  console.log("TeamInsightX\t\t" + version + "\t\t" + userLanguage);
   console.log("Update Data\t->\t" + (await LoadDataInfo_.update()));
   const link = document.querySelector('link[rel="riot:plugins:websocket"]');
   const ws = new WebSocket(link.href, "wamp");
@@ -294,7 +295,6 @@ async function load() {
     } else if (data === "None" || data === "Matchmaking" || data === "GameStart" || data == "EndOfGame") {
       unmount();
     }
-    console.log(endpoint, data);
   };
 }
 
