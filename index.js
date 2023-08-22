@@ -24,15 +24,17 @@ const version = "0.1.9";
 async function updateInfo(server) {
   let info = null;
 
-
-  const session = await fetch("/lol-champ-select/v1/session").then((response) => response.json());
+  const session = await fetch("/lol-champ-select/v1/session").then((r) => r.json());
+  const mode = await fetch("/lol-gameflow/v1/session").then((r) => r.json());
+  gameMode_ = mode.map.gameMode.toLowerCase(); //setGameMode
   let team = session.myTeam;
+
   teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");
   do {
     teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");
   } while (teamChatInfo.length<1);
 
-  if (team.length > 1 && (team[0].nameVisibilityType == "HIDDEM" || team[1].summonerId == "HIDDEN")) {
+  if (server!="zh-CN"&&mode.map.id == 11) {
     console.log("Ranked Game");
     do {
       info = await DataQuery_.sendRequest("get","//riotclient/chat/v5/participants/champ-select");
@@ -204,14 +206,18 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
   );
   let kda = await add(puuid, 0, 4, tooltip);
   while(!kda){
+    await delay(200);
     kda = await add(puuid, 0, 4, tooltip);
-    await delay(100);
   }
+
+
   const action = {
     "body": "[KDA] "+ name + "\t->\t"+kda.toFixed(2),
     "type": "celebration"
   };
   await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo[0].id +"/messages",action);
+
+
   tooltip.repositionElement(el, "right");
   tooltip.hide();
   return tooltip;
@@ -219,8 +225,7 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
 
 async function mount() {
   const [summonerId, puuid, name, level, status, Rank, LP, Mode, divisionS] = await updateInfo(userLanguage);
-  const session = await fetch("/lol-gameflow/v1/session").then((r) => r.json());
-  gameMode_ = session.map.gameMode.toLowerCase(); //setGameMode
+  
   let summoners;
   do {
     await delay(100);
@@ -294,7 +299,6 @@ async function load() {
     } else if (data === "None" || data === "Matchmaking" || data === "GameStart" || data == "EndOfGame") {
       unmount();
     }
-    console.log(endpoint, data);
   };
 }
 
