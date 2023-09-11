@@ -199,6 +199,45 @@
                 },
                 "Последние игры"
             ]
+        },
+        {
+            "_locales": [
+                "de-DE"
+            ],
+            "ranks": {
+                "CHALLENGER": "Herausforderer",
+                "GRANDMASTER": "Großmeister",
+                "MASTER": "Meister",
+                "DIAMOND": "Diamant",
+                "EMERALD": "Smaragd",
+                "PLATINUM": "Platin",
+                "GOLD": "Gold",
+                "SILVER": "Silber",
+                "BRONZE": "Bronze",
+                "IRON": "Eisen",
+                "NONE": "NONE",
+                "":"Ungewertet"
+            },
+            "queueTypes": {
+                "RANKED_SOLO_5x5": "Solo/Duo (Rangliste)",
+                "RANKED_FLEX_SR": "Flexi (Rangliste)",
+                "RANKED_TFT": "TFT"
+            },
+            "display": [
+                "level",
+                {
+                    "privacy": {
+                        "PUBLIC":"Öffentlich",
+                        "PRIVATE":"Privat",
+                        "text":"Privatsphäre"
+                    },
+                    "winLoss":{
+                        "true":"Gewonnen",
+                        "false":"Verloren"
+                    }
+                },
+                "Spielverlauf"
+            ]
         }
     ]
 }
