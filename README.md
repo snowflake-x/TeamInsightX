@@ -42,7 +42,7 @@ Download and extract [Releases](https://github.com/LightningSw/TeamInsightX/rele
         └── 📂 css
             └── 🎨 resource.css
 ```
-
+<!-- 1 -->
 ## The latest installation method 
 be to download ```TeamInsightX.js``` from [Releases](https://github.com/LightningSw/TeamInsightX/releases/latest), and the file path should be set as shown below
 ```

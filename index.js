@@ -114,7 +114,7 @@ function unmount() {
  */
 
 async function add(puuid, begIndex, endIndex, tool) {
-  const matchData = await DataQuery_.queryMatch(puuid, 0, 20);
+  const matchData = await DataQuery_.queryMatch(puuid, 0, 19);
   if (!matchData) {
     return -1; //queryMatchError
   }
