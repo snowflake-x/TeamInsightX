@@ -17,10 +17,10 @@ let teamChatInfo = null; //teamChatInfo
 
 let gameMode_ = ""; //gameMode
 
-const version = "0.1.9-u5";
+const version = "0.1.9-u9";
 
 const getKDAGrade = (kda) => 
-  kda >= 5.0 ? 'S' :
+  kda >= 4.0 ? 'S' :
   kda >= 3.0 ? 'A' :
   kda >= 2.0 ? 'B' :
   kda >= 1.0 ? 'C' :
@@ -37,12 +37,14 @@ async function updateInfo(server) {
   const mode = await fetch("/lol-gameflow/v1/session").then((r) => r.json()); //getGameflow
   gameMode_ = mode.map.gameMode.toLowerCase(); //setGameMode
   let team = session.myTeam;
+  let count = 0;
+  
   do {
     teamChatInfo = await DataQuery_.sendRequest("get","/lol-chat/v1/conversations");//wating for teamChatInfo
+    await delay(200);
   } while (teamChatInfo.length<1);
   
-  teamChatInfo = teamChatInfo.find(item => item.type === "championSelect"); //queryTeamChatInfo
-  console.log(teamChatInfo);
+  teamChatInfo = teamChatInfo.find(item => item.type === "championSelect"); //queryTeamChatInfos
   if (server!="zh-CN"&&mode.map.id == 11) {
     console.log("Ranked Game");
     do {
@@ -112,11 +114,17 @@ function unmount() {
  */
 
 async function add(puuid, begIndex, endIndex, tool) {
-  const matchData = await DataQuery_.queryMatch(puuid, begIndex, endIndex);
+  const matchData = await DataQuery_.queryMatch(puuid, 0, 20);
+  if (!matchData) {
+    return -1; //queryMatchError
+  }
   let k = 0,
     d = 0,
     a = 0;
-  for (let i = 0; i <= endIndex; i++) {
+    let win = 0;
+    let loss = 0;
+    console.log(matchData);
+  for (let i = 0; i < matchData.items.length; i++) {
     const heroIcon = LoadDataInfo_.getChampionPath(matchData.championId[i]);
     const spell1Id = LoadDataInfo_.getSpellPath(matchData.spell1Id[i]);
     const spell2Id = LoadDataInfo_.getSpellPath(matchData.spell2Id[i]);
@@ -130,18 +138,24 @@ async function add(puuid, begIndex, endIndex, tool) {
     const glod = matchData.gold[i];
     const mode = matchData.gameMode[i];
     const win_t = Translator_.getWinText(wins);
-    if (!items_id||isPromise(items_id)) {
+    if (isPromise(items_id)) {
       return false;
     }
       items_id.forEach((data) => {
         items_path.push(LoadDataInfo_.getItemIconPath(data));
       });
-
-
     const str = await DataQuery_.queryGameMode(mode).catch(console.error);
-    tool.appendMatchRecord(heroIcon, spell1Id, spell2Id, wins, str?str:"Other", kills, deaths, assist, items_path, minions, glod, win_t);
+    if (i>=begIndex&&i<endIndex) {
+      if (matchData.types[i]=="CUSTOM_GAME") {
+          endIndex++;
+          continue;
+      }
+      tool.appendMatchRecord(heroIcon, spell1Id, spell2Id, wins, str?str:"Other", kills, deaths, assist, items_path, minions, glod, win_t,);
+    }
+    wins?win++:loss++;
     (k = k + kills), (d = d + deaths), (a = a + assist);
   }
+  tool.setwinrate(win,loss);
   return (k + a) / d;
 }
 
@@ -200,22 +214,16 @@ async function mountDisplay(summonerId, puuid, name, level, status, Rank, LP, Mo
     version,
     match_t
   );
-  let kda = await add(puuid, 0, 4, tooltip);
+  let kda = await add(puuid, 0, 5, tooltip);
   while(!kda){
     await delay(200);
-    await delay(200);
-    kda = await add(puuid, 0, 4, tooltip);
+    kda = await add(puuid, 0, 5, tooltip);
   }
-
-
-
-
   const action = {
     "body": "[KDA - "+getKDAGrade(kda)+"] "+ name + "\t->\t"+kda.toFixed(2),
     "type": "celebration"
   };
   await DataQuery_.sendRequest("POST","/lol-chat/v1/conversations/"+ teamChatInfo.id +"/messages",action);
-
 
   tooltip.repositionElement(el, "right");
   tooltip.hide();
@@ -229,9 +237,10 @@ async function mount() {
   let summoners;
   do {
     await delay(100);
-    summoners = document.querySelector(".summoner-array.your-party").querySelectorAll(".summoner-wrapper.visible.left");
+    summoners = document.querySelector(".summoner-array.your-party");
   } while (!summoners);
-  for (const [index, el] of summoners.entries()) {
+  const team = summoners.querySelectorAll(".summoner-wrapper.visible.left");
+  for (const [index, el] of team.entries()) {
    // player-name-wrapper ember-view
    // const LocalName = el.querySelector(".player-name__summoner").textContent;
     let lname = name[index];

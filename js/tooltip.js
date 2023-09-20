@@ -7,6 +7,9 @@ export class Tooltip {
   #content;
   #match;
   #matchList;
+
+  #loss;
+  #win;
   #kdaList;
 
   constructor(manager) {
@@ -58,6 +61,19 @@ export class Tooltip {
       "position: relative;top:5px;color: #f0e6d2; font-weight: 700; font-size:14px; letter-spacing: .1em;"
     );
     body.appendChild(match);
+
+
+    const win_rate = document.createElement("div");
+    win_rate.setAttribute("style", "display: flex;position: relative;top:5px;")
+    const win = (this.#win = document.createElement("span"));
+    win.classList.add("win");
+    win.textContent = "win:";
+    win_rate.appendChild(win);
+    const loss = (this.#loss = document.createElement("span"));
+    loss.classList.add("loss");
+    loss.textContent = "loss:";
+    win_rate.appendChild(loss);
+    body.appendChild(win_rate);
 
     const matchList = (this.#matchList = document.createElement("div"));
     matchList.setAttribute("style", "position: relative;top:5px");
@@ -209,6 +225,11 @@ export class Tooltip {
     const fragment = range.createContextualFragment(newHtml);
 
     matchList.appendChild(fragment);
+  }
+
+  setwinrate(win,loss){
+    this.#win.textContent = "win:"+win;
+    this.#loss.textContent = "loss:"+loss;
   }
   
 }

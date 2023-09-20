@@ -4,6 +4,16 @@
     display: flex;
 }
 
+.win{
+    height: 20px;
+    width: 40px;
+    color: skyblue;
+}
+.loss{
+    height: 20px;
+    width: 40px;
+    color: red;
+}
 .icon-head {
     height: 32px;
     width: 32px;

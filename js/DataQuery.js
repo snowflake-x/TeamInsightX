@@ -6,6 +6,7 @@ export class DataQuery {
  * @param {string} name 
  * @returns summonerId
  */
+ isPromise = obj => obj instanceof Promise || (obj && typeof obj.then === 'function'); //isPromise function
     async queryPlayerSummonerId(name) {
         const result = await fetch('/lol-summoner/v1/summoners?name='+name).then((res) => res.json());
         return result.summonerId;
@@ -82,7 +83,7 @@ export class DataQuery {
             begIndex = 0;
         }
         if (typeof endIndex !== 'number' || isNaN(endIndex)) {
-            endIndex = 0;
+            endIndex = 5;
         }
         const result = await fetch(
             '/lol-match-history/v1/products/lol/' +
@@ -92,6 +93,7 @@ export class DataQuery {
             '&endIndex=' +
             endIndex.toString()
         ).then((res) => res.json());
+        console.log(result);
         const matchList = await result.games;
         const gameMode = [];
         const championIds = [];
@@ -106,6 +108,10 @@ export class DataQuery {
         const spell1Id = [];
         const spell2Id = [];
         const items = [];
+        const types = [];
+        if (matchList === undefined) {
+            return false;
+        }
         const MList = Object.values(matchList);
         for (let item of MList[5]) {
             gameMode.push(item.queueId);
@@ -128,8 +134,8 @@ export class DataQuery {
                 tmp_items.push(itemValue);
             }
             items.push(tmp_items);
+            types.push(item.gameType);
         };
-
         return {
             gameMode: gameMode,
             championId: championIds,
@@ -143,7 +149,8 @@ export class DataQuery {
             laneList: laneList,
             spell1Id: spell1Id,
             spell2Id: spell2Id,
-            items: items
+            items: items,
+            types: types
         };
 
 
