@@ -123,6 +123,45 @@
           },
           {
             "_locales": [
+                "fr-FR"
+            ],
+            "ranks": {
+                "CHALLENGER": "CHALLENGER",
+                "GRANDMASTER": "GRANDMASTER",
+                "MASTER": "MASTER",
+                "DIAMOND": "DIAMANT",
+                "EMERALD": "ÉMERAUDE",
+                "PLATINUM": "PLATINE",
+                "GOLD": "OR",
+                "SILVER": "ARGENT",
+                "BRONZE": "BRONZE",
+                "IRON": "FER",
+                "NONE": "AUCUN",
+                "":"Non classé"
+            },
+            "queueTypes": {
+                "RANKED_SOLO_5x5": "File solo/duo",
+                "RANKED_FLEX_SR": "File flexible",
+                "RANKED_TFT": "TFT"
+            },
+            "display": [
+                "niveau",
+                {
+                    "privacy": {
+                        "PUBLIC":"public",
+                        "PRIVATE":"privé",
+                        "text":"Confidentialité"
+                    },
+                    "winLoss":{
+                        "true":"victoire",
+                        "false":"défaite"
+                    }
+                },
+                "Historique des parties"
+            ]
+        },
+        {
+            "_locales": [
                 "pt-BR",
                 "pt-PT"
             ],
